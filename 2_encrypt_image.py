@@ -44,9 +44,7 @@ def tuple_to_bytes(x):
     """
     Helper function to convert a tuple of integers into bytes
     """
-    return int.from_bytes(list(x), byteorder="big").to_bytes(
-        3, byteorder="big"
-    )
+    return int.from_bytes(list(x), byteorder="big").to_bytes(3, byteorder="big")
 
 
 def bytes_to_col(x, length, top_down=False):
@@ -89,7 +87,7 @@ def enc_img(input_filename, output_filename, cbc, top_down=False):
 
     # Create and configure Cipher object
     # TODO: Task 2-1
-
+    cipher = Cipher(algorithms.TripleDES(key), mode)
     # Load the image
     im = Image.open(input_filename)
 
@@ -101,19 +99,21 @@ def enc_img(input_filename, output_filename, cbc, top_down=False):
 
         # Create a CipherContext instance for encryption
         # TODO: Task 2-2
+        encryptor = cipher.encryptor()
 
         # Prepare a padding scheme
         # TODO: Task 2-3
-
+        padder = padding.PKCS7(64).padder()
         # Convert each column value into bytes
         column_bytes = col_to_bytes(col, top_down)
 
         # Pad each column bytes
         # TODO: Task 2-4
+        padded_column_bytes = padder.update(column_bytes) + padder.finalize()
 
         # Encrypt each padded column bytes
         # TODO: Task 2-5
-        encrypted_bytes = None
+        encrypted_bytes = encryptor.update(padded_column_bytes)
 
         try:
             # Convert back the encrypted column bytes to tuple of int
