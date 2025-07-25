@@ -178,6 +178,13 @@ if __name__ == "__main__":
         True,
     )
 
+    enc_img(
+        "original_files/sample.bmp",
+        "output/enc_bottom_up_ecb_sample.bmp",
+        False,
+        False,
+    )
+
     # # CBC
     enc_img(
         "original_files/triangle.bmp",
